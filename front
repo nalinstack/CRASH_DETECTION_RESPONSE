@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Accident Monitoring Dashboard</title>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI';
+      background: #0b0f14;
+      color: white;
+      display: flex;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background: #111;
+      padding: 20px;
+    }
+
+    .sidebar h2 {
+      color: #00ffcc;
+    }
+
+    .menu div {
+      margin: 15px 0;
+      cursor: pointer;
+    }
+
+    .severity {
+      padding: 8px;
+      border-radius: 5px;
+      margin: 5px 0;
+    }
+
+    .low { background: green; }
+    .medium { background: orange; }
+    .high { background: red; }
+
+    /* Main */
+    .main {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .card {
+      background: #141a22;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .map {
+      height: 250px;
+      border-radius: 10px;
+      background: black;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .alert {
+      background: green;
+      padding: 15px;
+      border-radius: 10px;
+    }
+
+    .HIGH { background: red !important; animation: blink 1s infinite; }
+
+    @keyframes blink {
+      50% { opacity: 0.5; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+  <h2>🚨 Dashboard</h2>
+
+  <div class="menu">
+    <div>📡 Live Monitoring</div>
+    <div>📊 Telemetry</div>
+    <div>📜 Impact Log</div>
+  </div>
+
+  <h3>Severity</h3>
+  <div class="severity low">LOW</div>
+  <div class="severity medium">MEDIUM</div>
+  <div class="severity high">HIGH</div>
+</div>
+
+<!-- Main -->
+<div class="main">
+
+  <h1 id="status">SYSTEM STATUS: STANDBY</h1>
+
+  <!-- Map -->
+  <div class="card">
+    <h2>Deployment Zone Map</h2>
+    <iframe id="map" class="map"></iframe>
+  </div>
+
+  <!-- Telemetry -->
+  <div class="grid">
+
+    <div class="card">
+      <h3>Acceleration</h3>
+      <p id="acc">0</p>
+    </div>
+
+    <div class="card">
+      <h3>Status</h3>
+      <p id="accidentStatus">Waiting...</p>
+    </div>
+
+    <div class="card">
+      <h3>Severity</h3>
+      <p id="severity">-</p>
+    </div>
+
+    <div class="card">
+      <h3>Time</h3>
+      <p id="time">-</p>
+    </div>
+
+  </div>
+
+  <!-- Alert -->
+  <div id="alertBox" class="card alert">
+    No alerts
+  </div>
+
+</div>
+
+<script>
+  const firebaseConfig = {
+   apiKey: "AIzaSyAo7Add3ZtIw9UhVtQJRedrTA3nr646yLs",
+  authDomain: "accident-detection-syste.firebaseapp.com",
+  databaseURL: "https://console.firebase.google.com/u/0/project/accident-detection-syste/database/accident-detection-syste-default-rtdb/data/~2F"
+  projectId: "accident-detection-syste",  
+};
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  db.ref("accidents").on("value", (snapshot) => {
+    const data = snapshot.val();
+    if (!data) return;
+
+    const entries = Object.values(data);
+    const latest = entries[entries.length - 1];
+
+    const lat = latest.latitude;
+    const lon = latest.longitude;
+
+    document.getElementById("map").src =
+      `https://maps.google.com/maps?q=${lat},${lon}&z=15&output=embed`;
+
+    document.getElementById("severity").innerText = latest.severity;
+    document.getElementById("accidentStatus").innerText = latest.status;
+    document.getElementById("time").innerText = latest.timestamp;
+
+    // Fake acceleration (derived)
+    document.getElementById("acc").innerText =
+      (Math.random() * 10).toFixed(2) + " m/s²";
+
+    const alertBox = document.getElementById("alertBox");
+
+    if (latest.severity === "HIGH") {
+      alertBox.className = "card alert HIGH";
+      alertBox.innerText = "🚨 EMERGENCY ALERT SENT!";
+      document.getElementById("status").innerText = "SYSTEM STATUS: CRITICAL";
+    } else {
+      alertBox.className = "card alert";
+      alertBox.innerText = "System Normal";
+      document.getElementById("status").innerText = "SYSTEM STATUS: ACTIVE";
+    }
+  });
+</script>
+
+</body>
+</html>
