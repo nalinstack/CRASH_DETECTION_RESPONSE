@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "accident-detection-syste",
+  "private_key_id": "83245e95299012548a589c9f24f81b8f57d15a8a",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCk4m6U9F2cwNVU\nEvKSun8gretaLorjoQ2MdVtClniC/k/S8zi1QGQtKzr6JG7ek2VJQ5PEM1Vo/cQq\nxpFnOgC/vQzlgb0N9E/XXfQPFIQv9wlxm/fctsRFzwfLPcsbpnpM21SztFrmoBWK\n3QWq1xcLnZbFs/v1fGN3lZR/onAv9zu8uWOvyWHju5eY09aDh1WlG3p3to5AzmkE\n6v49d0Jxpjo6ynj13JJSbHkO++2pnaR9lXHkY9AnMDKiH13jOvl83E1ohfo/u0Yl\nzehDeFiiLvoiag5i/lrKjNxr9UEq+8oGnOoiXiviR5uZ5zmCn0bW848QNOzdcJxN\nImYMUNH7AgMBAAECggEAANNcxWSB3Ck/suI+EmEFBkdeAH9vf5tMrjw03vJSRn76\nga5pGsiTQoH5viCU6OATvO2t3ZN6OoKGyxtfxVoOKzz0Rb6ZZpVSGbHP6TbA6107\n0An9ZZQJYJDG/mFf/9KcwH9v/vmzY33quF10oU80FNakV3dtbA8Zj72RLEsbxQm1\nqiycDrGlROQGrLq1PVDAbjNTLohBsKjRH3oO7L1y8qK5dGMSdZeXnjNw1s0nd6eV\nYMlhBoybaarRAKXo3gAx9GZhqm6PQenTf2G+Y2hyZkTjRa19sertUyNsFhir3ox6\nN0hypmbI9pqygh0xaE9C6lS3QEjPVrUjUMGLIbr0pQKBgQDWLTP/pXqtDu6+H8sm\nEWSvp8lv+thgHDWLiYbQxHQ6Wh7ovmC5Db/wvVTZkdlvsvbk7wAaebRfqVolakQX\n+XgctpbnqcGhrew1pY2j4YlyMEOu4C03+Xs42gCeFW/g8IzIQv8ChwYWRJf0N2oc\nJh3XDNrCujShc329vKrpauur7wKBgQDFFRe8u+FDK2uMC2SBGh80yJhXTuP8zXtC\n7MDTRPlk21PDCEniwK1N4kaG/K9ZUX4HKqlAEelTagZqNO9IlVUqDzUYJENaaS3I\n9dtLakCzLjeUqpCJYmVuE9ltY5Tf3I1anxWzdUzg6oemwHZ3lwLBoIUJcWMCl3jl\nqvhKGdnetQKBgH6jpc5wq1Pus24J4JX2zOEsReiHmy9hHqwOOn/w2YSzSvl1sD1b\nivWvDZ/EJJxuZpxBUX9WHTg/K8VZyz+dy862jA4ZCxwtebDS3ihbsGirbynU9gfV\n5W1dQeY3aLrJoYS8UIrPCeNa1bqalYxlYVmKCUQA1CPu5ReumiSAiy9TAoGAMULF\nbSJU+tIWjqmmVHKwDCR7l48bg2vk/GRrCiO6ZpA/zob62NeqOcZuNH1iYuPwqV/r\ncB1KAdSFh/R1PuI8qEem0ML3ptiVXh690orbYy4RLHK5r+1NRwdlGGeEpbPeDSGo\nbfPK5IkaoP6IXfn78WPq/OI/ij1MNbPXXcY6Y+UCgYAJYVZrU08RXoxNCGDl9xij\n8D4FjxMOAt7WQ1VmKzReW2GBNvntYgI0s5iXPW0XmEbOTcI1Ado7dk3xB+ZvedEw\n8JFGicxQ/sdEghXKew8KJ3YWA3QiN2Tvk1KI5rIJuIx4ulUFYVm8A9w5ozlgz3kF\nW3iLJfsN0GMQ6YK0GGuPWQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-fbsvc@accident-detection-syste.iam.gserviceaccount.com",
+  "client_id": "101297193647335528844",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40accident-detection-syste.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
