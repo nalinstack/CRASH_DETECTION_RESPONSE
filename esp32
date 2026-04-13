@@ -1,0 +1,143 @@
+#include <WiFi.h>
+#include <HTTPClient.h>
+#include <Wire.h>
+#include <math.h>
+
+`
+const char* ssid = "Nothing Phone (3a) Pro";
+const char* password = "12345678";
+
+
+const char* serverURL = "http://10.111.240.87:5000/report";
+
+
+const int MPU = 0x68;
+
+void setup() {
+  Serial.begin(115200);
+  delay(2000);
+
+  Serial.println("\n===== SYSTEM START =====");
+
+  
+  Wire.begin(21, 22);
+  delay(100);
+
+  
+  Wire.beginTransmission(MPU);
+  Wire.write(0x6B);
+  Wire.write(0);
+  Wire.endTransmission(true);
+
+  Serial.println("✅ MPU READY");
+
+  
+  Serial.println("Connecting WiFi...");
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.println("\n✅ WiFi Connected");
+  Serial.print("IP: ");
+  Serial.println(WiFi.localIP());
+}
+
+
+void readMPU(float &ax, float &ay, float &az) {
+
+  Wire.beginTransmission(MPU);
+  Wire.write(0x3B);
+  Wire.endTransmission(false);
+  Wire.requestFrom(MPU, 6, true);
+
+  int16_t rawAx = Wire.read() << 8 | Wire.read();
+  int16_t rawAy = Wire.read() << 8 | Wire.read();
+  int16_t rawAz = Wire.read() << 8 | Wire.read();
+
+  ax = rawAx / 16384.0;
+  ay = rawAy / 16384.0;
+  az = rawAz / 16384.0;
+}
+
+
+void calculateTilt(float ax, float ay, float az, float &roll, float &pitch) {
+
+  roll = atan2(ay, az) * 57.2958;
+  pitch = atan2(-ax, sqrt(ay * ay + az * az)) * 57.2958;
+}
+
+
+void sendToServer(float ax, float ay, float az, float roll, float pitch) {
+
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("WiFi not connected");
+    return;
+  }
+
+  HTTPClient http;
+  WiFiClient client;
+
+  http.begin(client, serverURL);
+  http.addHeader("Content-Type", "application/json");
+
+  String json = "{";
+  json += "\"latitude\":12.97073,";
+  json += "\"longitude\":79.15931,";
+  json += "\"ax\":" + String(ax, 2) + ",";
+  json += "\"ay\":" + String(ay, 2) + ",";
+  json += "\"az\":" + String(az, 2) + ",";
+  json += "\"roll\":" + String(roll, 2) + ",";
+  json += "\"pitch\":" + String(pitch, 2);
+  json += "}";
+
+  Serial.println("\n📤 Sending JSON:");
+  Serial.println(json);
+
+  int code = http.POST(json);
+
+  Serial.print("HTTP Response: ");
+  Serial.println(code);
+
+  if (code > 0) {
+    Serial.println(http.getString());
+  }
+
+  http.end();
+}
+
+
+void loop() {
+
+  float ax, ay, az;
+  float roll, pitch;
+
+  readMPU(ax, ay, az);
+  calculateTilt(ax, ay, az, roll, pitch);
+
+  Serial.println("\n📊 SENSOR VALUES:");
+  Serial.print("AX: "); Serial.println(ax);
+  Serial.print("AY: "); Serial.println(ay);
+  Serial.print("AZ: "); Serial.println(az);
+
+  Serial.println("📐 TILT:");
+  Serial.print("Roll: "); Serial.println(roll);
+  Serial.print("Pitch: "); Serial.println(pitch);
+
+ 
+  float total = sqrt(ax * ax + ay * ay + az * az);
+
+  Serial.print("TOTAL: ");
+  Serial.println(total);
+
+  
+  if (total > 1.5 || total < 0.5) {
+    Serial.println("🚨 MOTION DETECTED!");
+
+    sendToServer(ax, ay, az, roll, pitch);
+  }
+
+  delay(500);
+}
