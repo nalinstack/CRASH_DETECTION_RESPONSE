@@ -7,7 +7,7 @@ from flask_cors import CORS
 import math
 
 
-cred = credentials.Certificate("firebase-key.json")
+cred = credentials.Certificate("firebasekey.json")
 
 firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://accident-detection-backend-default-rtdb.asia-southeast1.firebasedatabase.app/'
